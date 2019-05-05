@@ -23,14 +23,14 @@
 
 (defn on-message
   [message]
-  (info "Received :" (String. ^bytes (::mqtt/payload message))))
+  (info (String. ^bytes (::mqtt/payload message))))
 
 (defn subscribe [q]
   (mqtt.v3/subscribe client {q {::mqtt/qos 1 ::mqtt.v3/on-message on-message}}))
 
 (defn publish [q m]
-  (mqtt.v3/publish client q {:mqtt/payload (.getBytes m)}))
+  (mqtt.v3/publish client q {::mqtt/payload (.getBytes m)}))
 
 (comment
-  (subscribe "example")
-  (publish "example" "hello!"))
+  (publish "k/relay/0/set" "toggle")
+  (subscribe "k/status"))
