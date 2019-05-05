@@ -24,4 +24,4 @@
 
 (defstate server
   :start (start-)
-  :stop (stop-))
+  :stop (stop- server))
