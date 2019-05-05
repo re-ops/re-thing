@@ -5,6 +5,7 @@
    [clojure.repl :refer :all]
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
    [re-thing.core :refer (server)]
+   [re-thing.client :refer (client)]
    ; logging
    [re-thing.log :refer (setup-logging)]
    [re-share.log :refer (redirect-output debug-on debug-off)]
@@ -16,12 +17,12 @@
   "Starts the current development system."
   []
   (setup-logging)
-  (mount/start #'server))
+  (mount/start #'server #'client))
 
 (defn stop
   "Shuts down and destroys the current development system."
   []
-  (mount/stop #'server)
+  (mount/stop #'server #'client)
   )
 
 (defn go

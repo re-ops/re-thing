@@ -17,11 +17,11 @@
 
 (defn start- []
   (doto (Server.)
-    (.startServer (properties "8083" "127.0.0.1" "src/main/resources/password_file.conf"))))
+    (.startServer (properties "8083" "localhost" "src/main/resources/password_file.conf"))))
 
 (defn stop- [server]
   (.stopServer server))
 
 (defstate server
-  :start start-
-  :stop stop-)
+  :start (start-)
+  :stop (stop-))
