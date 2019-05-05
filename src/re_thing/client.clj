@@ -14,12 +14,12 @@
 (defn start- []
   (::mqtt.v3/client (mqtt.v3/open opts)))
 
-(defn stop- [c]
-  (mqtt.v3/close c))
+(defn stop- [client]
+  (mqtt.v3/close client))
 
 (defstate client
   :start (start-)
-  :stop (stop-))
+  :stop (stop- client))
 
 (defn on-message
   [message]
