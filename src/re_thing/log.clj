@@ -7,11 +7,6 @@
 
 (refer-timbre)
 
-(defn disable-coloring
-  "See https://github.com/ptaoussanis/timbre"
-  []
-  (merge-config! {:output-fn (partial timbre/default-output-fn  {:stacktrace-fonts {}})}))
-
 (defn setup-logging
   "Sets up logging configuration:
     - stale logs removale interval
@@ -19,6 +14,6 @@
     - log level
   "
   [& {:keys [interval level] :or {interval 10 level :info}}]
-  (log/setup "re-thing" [] [])
+  (log/setup "re-thing" [] ["re-thing.output"])
   (set-level! level))
 
