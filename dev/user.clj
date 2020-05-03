@@ -22,8 +22,7 @@
 (defn stop
   "Shuts down and destroys the current development system."
   []
-  (mount/stop #'server #'client)
-  )
+  (mount/stop #'server #'client))
 
 (defn go
   "Initializes the current development system and starts it running."
@@ -38,8 +37,7 @@
   #_(require))
 
 (defn run-tests []
-  (clojure.test/run-tests
-    ))
+  (clojure.test/run-tests))
 
 (defn clrs
   "clean repl"
