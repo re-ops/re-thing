@@ -23,10 +23,14 @@
      [mount "0.1.13"]
 
      ; re-ops
-     [re-share "0.10.1"]
+     [re-share "0.14.0"]
 
      ; repl
      [org.clojure/tools.namespace "0.2.11"]
+
+     ; json handling
+     [cheshire "5.9.0"]
+     [com.mikesamuel/json-sanitizer "1.2.0"]
    ]
 
    :plugins [
@@ -45,5 +49,10 @@
 
    :resource-paths  ["src/main/resources/"]
 
-   :repositories {"bintray" "https://jcenter.bintray.com"}
+   :repositories {
+    "sonatype" "https://oss.sonatype.org/content/repositories/releases"
+    "bintray" "https://jcenter.bintray.com"
+    }
+
+   :repl-options { :timeout 120000 }
 )
