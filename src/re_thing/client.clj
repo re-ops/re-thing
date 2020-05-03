@@ -21,16 +21,12 @@
   :start (start-)
   :stop (stop- client))
 
-(defn on-message
+(defn log-message
   [message]
   (info (String. ^bytes (::mqtt/payload message))))
 
-(defn subscribe [q]
-  (mqtt.v3/subscribe client {q {::mqtt/qos 1 ::mqtt.v3/on-message on-message}}))
+(defn subscribe [q f]
+  (mqtt.v3/subscribe client {q {::mqtt/qos 1 ::mqtt.v3/on-message f}}))
 
 (defn publish [q m]
   (mqtt.v3/publish client q {::mqtt/payload (.getBytes m)}))
-
-(comment
-  (publish "k/relay/0/set" "toggle")
-  (subscribe "k/status"))
