@@ -1,5 +1,6 @@
 (ns re-thing.core
   (:require
+   [re-thing.config :refer (configuration)]
    [mount.core :as mount :refer (defstate)])
   (:import
    [io.moquette.broker Server]
@@ -8,7 +9,7 @@
 (defn handler [request]
   (prn request))
 
-(defn properties [port bind password-file]
+(defn properties [{:keys [port bind password-file]}]
   (let [props (Properties.)]
     (doto props
       (.setProperty "port" port)
@@ -17,7 +18,7 @@
 
 (defn start- []
   (doto (Server.)
-    (.startServer (properties "8083" "localhost" "src/main/resources/password_file.conf"))))
+    (.startServer (properties (configuration)))))
 
 (defn stop- [server]
   (.stopServer server))

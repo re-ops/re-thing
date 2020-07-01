@@ -2,13 +2,12 @@
   (:refer-clojure :exclude  [update list])
   (:require
    [mount.core :as mount :refer (defstate)]
-   [clojure.repl :refer :all]
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
    [re-thing.core :refer (server)]
    [re-thing.client :refer (client)]
+   [re-thing.temp :refer (initialize)]
    ; logging
    [re-thing.log :refer (setup-logging)]
-   [re-share.log :refer (redirect-output debug-on debug-off)]
    ; testing
    [clojure.test]))
 
@@ -17,7 +16,8 @@
   "Starts the current development system."
   []
   (setup-logging)
-  (mount/start #'server #'client))
+  (mount/start #'server #'client)
+  (initialize))
 
 (defn stop
   "Shuts down and destroys the current development system."

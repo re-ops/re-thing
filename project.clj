@@ -31,6 +31,9 @@
      ; json handling
      [cheshire "5.9.0"]
      [com.mikesamuel/json-sanitizer "1.2.0"]
+
+     ; configuration
+     [aero "1.1.6"]
    ]
 
    :plugins [

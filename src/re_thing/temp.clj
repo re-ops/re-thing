@@ -11,7 +11,7 @@
 (refer-timbre)
 
 (defn temp-reading
-  "Handling a DHT11 reading"
+  "Handling a DHT11 temp reading"
   [message]
   (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (::mqtt/payload message))) keyword)]
     (info payload)))

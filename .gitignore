@@ -9,4 +9,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+re-thing.log.*
 re-thing.log
