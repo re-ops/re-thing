@@ -1,5 +1,20 @@
 {
- :bind "0.0.0.0" 
+ :bind "0.0.0.0"
  :port "8083"
  :password-file "src/main/resources/password_file.conf"
+
+ :secrets #include "secrets.edn"
+
+ :elasticsearch {
+  :default {
+     :hosts ["https://elasticsearch.local:9201"]
+     :auth {
+       :user #ref [:secrets :elasticsearch :user]
+       :pass #ref [:secrets :elasticsearch :pass]
+     }
+     :major 7
+     :minor 8
+     :self? true
+   }
+  }
 }

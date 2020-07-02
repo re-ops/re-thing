@@ -3,18 +3,17 @@
   :url "https://github.com/re-ops/re-thing"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
   :dependencies [
-     [org.clojure/clojure "1.10.0"]
+     [org.clojure/clojure "1.10.1"]
 
      ; string interpulation
      [org.clojure/core.incubator "0.1.4"]
 
      ; logging
      [com.taoensso/timbre "4.10.0"]
-     [com.fzakaria/slf4j-timbre "0.3.7"]
-     [com.taoensso/tufte "1.1.1"]
+     [com.fzakaria/slf4j-timbre "0.3.19"]
 
      ; mqtt server
-     [io.moquette/moquette-broker "0.12.1"]
+     [io.moquette/moquette-broker "0.12.1" :exclusions [org.slf4j/slf4j-log4j12]]
 
      ; mqtt client
      [dvlopt/mqtt "0.0.1"]
@@ -34,6 +33,10 @@
 
      ; configuration
      [aero "1.1.6"]
+
+     ; Elasticsearch
+     [rubber "0.4.1"]
+     [org.apache.httpcomponents/httpclient "4.5.2"]
    ]
 
    :plugins [
@@ -57,5 +60,11 @@
     "bintray" "https://jcenter.bintray.com"
     }
 
-   :repl-options { :timeout 120000 }
+   :repl-options {
+     :init-ns user
+    :prompt (fn [ns]
+              (let [hostname (.getHostName (java.net.InetAddress/getLocalHost))]
+                (str "\u001B[35m[\u001B[34m" "re-thing" "\u001B[31m" "@" "\u001B[36m" hostname "\u001B[35m]\u001B[33mλ:\u001B[m ")))
+    :welcome (println "Welcome to re-thing!" )
+    :timeout 120000 }
 )
