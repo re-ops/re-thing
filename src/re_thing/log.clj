@@ -14,6 +14,6 @@
     - log level
   "
   [& {:keys [interval level] :or {interval 10 level :info}}]
-  (log/setup "re-thing" [] ["re-thing.output"])
+  (log/setup "re-thing" ["io.moquette.broker.*"] ["re-thing.output"])
   (set-level! level))
 
