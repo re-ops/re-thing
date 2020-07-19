@@ -22,7 +22,7 @@
      [mount "0.1.13"]
 
      ; re-ops
-     [re-share "0.14.0"]
+     [re-share "0.16.1"]
 
      ; repl
      [org.clojure/tools.namespace "0.2.11"]

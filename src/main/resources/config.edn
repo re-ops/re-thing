@@ -5,15 +5,17 @@
 
  :secrets #include "secrets.edn"
 
+ :re-thing {
+   :elasticsearch {:index "re-thing"}
+ }
+
  :elasticsearch {
   :default {
-     :hosts ["https://elasticsearch.local:9201"]
+     :hosts ["https://grafana-metrics:9201"]
      :auth {
        :user #ref [:secrets :elasticsearch :user]
        :pass #ref [:secrets :elasticsearch :pass]
      }
-     :major 7
-     :minor 8
      :self? true
    }
   }

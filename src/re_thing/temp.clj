@@ -16,7 +16,7 @@
   (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (::mqtt/payload message))) keyword)]
     (info payload)))
 
-(defn initialize []
+(defn initialize-temp []
   (subscribe "temp/reading" temp-reading))
 
 (comment

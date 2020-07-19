@@ -1,6 +1,6 @@
 (ns re-thing.core
   (:require
-   [re-thing.config :refer (configuration)]
+   [re-share.config.core :refer (config)]
    [mount.core :as mount :refer (defstate)])
   (:import
    [io.moquette.broker Server]
@@ -18,7 +18,7 @@
 
 (defn start- []
   (doto (Server.)
-    (.startServer (properties (configuration)))))
+    (.startServer (properties @config))))
 
 (defn stop- [server]
   (.stopServer server))

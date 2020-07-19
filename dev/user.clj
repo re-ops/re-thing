@@ -5,7 +5,9 @@
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
    [re-thing.core :refer (server)]
    [re-thing.client :refer (client)]
-   [re-thing.temp :refer (initialize)]
+   [re-thing.temp :refer (initialize-temp)]
+   [re-thing.persistency :refer (initialize-es elastic)]
+   [re-thing.config :refer (initialize-config)]
    ; logging
    [re-thing.log :refer (setup-logging)]
    ; testing
@@ -16,8 +18,10 @@
   "Starts the current development system."
   []
   (setup-logging)
-  (mount/start #'server #'client)
-  (initialize))
+  (initialize-config)
+  (mount/start #'server #'client #'elastic)
+  (initialize-es)
+  (initialize-temp))
 
 (defn stop
   "Shuts down and destroys the current development system."
