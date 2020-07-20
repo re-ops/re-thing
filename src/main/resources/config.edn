@@ -14,8 +14,10 @@
      :hosts ["https://grafana-metrics:9201"]
      :auth {
        :user #ref [:secrets :elasticsearch :user]
-       :pass #ref [:secrets :elasticsearch :pass]
+       :password #ref [:secrets :elasticsearch :password]
      }
+     :major 7
+     :minor 8
      :self? true
    }
   }
