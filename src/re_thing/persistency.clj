@@ -23,4 +23,4 @@
     (add-template "re-thing-readings" ["re-thing*"] {:number_of_shards 1} types)))
 
 (defn persist [m]
-  (create (day-index :re-thing :readings m)))
+  (create (day-index :re-thing :readings) m))

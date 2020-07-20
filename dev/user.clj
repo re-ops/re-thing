@@ -10,6 +10,7 @@
    [re-thing.config :refer (initialize-config)]
    ; logging
    [re-thing.log :refer (setup-logging)]
+   [re-share.log :refer (redirect-output debug-on debug-off)]
    ; testing
    [clojure.test]))
 

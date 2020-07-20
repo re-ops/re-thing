@@ -1,6 +1,7 @@
 (ns re-thing.temp
   "Temperture sensor reading over mqtt"
   (:require
+   [re-thing.persistency :refer (persist)]
    [taoensso.timbre :refer (refer-timbre)]
    [re-thing.client :refer (subscribe publish log-message)]
    [cheshire.core :refer (parse-string)]
@@ -14,7 +15,8 @@
   "Handling a DHT11 temp reading"
   [message]
   (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (::mqtt/payload message))) keyword)]
-    (info payload)))
+    (debug "persisting" payload)
+    (persist (assoc payload :type :dht11 :host "" :timestamp (System/currentTimeMillis)))))
 
 (defn initialize-temp []
   (subscribe "temp/reading" temp-reading))
