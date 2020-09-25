@@ -1,21 +1,44 @@
 (ns re-thing.client
   (:require
    [taoensso.timbre :refer (refer-timbre)]
-   [mount.core :as mount :refer (defstate)]
-   [dvlopt.mqtt    :as mqtt]
-   [dvlopt.mqtt.v3 :as mqtt.v3]))
+   [mount.core :as mount :refer (defstate)])
+  (:import
+   org.eclipse.paho.client.mqttv3.MqttClient
+   org.eclipse.paho.client.mqttv3.MqttCallback
+   org.eclipse.paho.client.mqttv3.MqttConnectOptions
+   org.eclipse.paho.client.mqttv3.MqttException
+   org.eclipse.paho.client.mqttv3.MqttMessage
+   org.eclipse.paho.client.mqttv3.persist.MemoryPersistence))
 
 (refer-timbre)
 
-(def opts
-  {::mqtt/nodes  [{::mqtt/scheme :tcp
-                   ::mqtt/host   "127.0.0.1"
-                   ::mqtt/port   8083}]})
+(def qos 2)
+(def broker "tcp://<ip>:1883")
+(def clientId "re-thing")
+
+(def handlers (atom {}))
+
+(defn subscriber []
+  (proxy [MqttCallback] []
+    (connectionLost [throwable]
+      (error "lost connection to broker" throwable))
+    (messageArrived [topic message]
+      ((@handlers topic) (.getPayload message)))
+    (deliveryComplete [token])))
+
 (defn start- []
-  (::mqtt.v3/client (mqtt.v3/open opts)))
+  (let [persistence (MemoryPersistence.)
+        options (doto (MqttConnectOptions.) (.setCleanSession true))]
+    (doto
+     (MqttClient. broker clientId persistence)
+      (.connect options)
+      (.setCallback (subscriber)))))
 
 (defn stop- [client]
-  (mqtt.v3/close client))
+  (try
+    (.disconnect client)
+    (catch Exception e
+      (error "failed to disconnect" e))))
 
 (defstate client
   :start (start-)
@@ -23,10 +46,12 @@
 
 (defn log-message
   [message]
-  (info (String. ^bytes (::mqtt/payload message))))
+  (info (String. ^bytes message)))
 
 (defn subscribe [q f]
-  (mqtt.v3/subscribe client {q {::mqtt/qos 1 ::mqtt.v3/on-message f}}))
+  (.subscribe client (into-array String [q]) (int-array [2]))
+  (swap! handlers assoc q f))
 
 (defn publish [q m]
-  (mqtt.v3/publish client q {::mqtt/payload (.getBytes m)}))
+  (let [message (doto (MqttMessage. (.getBytes m)) (.setQos qos))]
+    (.publish client q message)))
