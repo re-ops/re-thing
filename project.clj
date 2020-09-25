@@ -17,6 +17,7 @@
 
      ; mqtt client
      [dvlopt/mqtt "0.0.1"]
+     [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
 
      ; wiring
      [mount "0.1.13"]
@@ -56,6 +57,7 @@
    :resource-paths  ["src/main/resources/"]
 
    :repositories {
+    "phao"  "https://repo.eclipse.org/content/repositories/paho-releases/"
     "sonatype" "https://oss.sonatype.org/content/repositories/releases"
     "bintray" "https://jcenter.bintray.com"
     }
