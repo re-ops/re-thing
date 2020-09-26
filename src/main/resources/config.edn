@@ -1,13 +1,15 @@
 {
- :bind "0.0.0.0"
- :port "8083"
- :password-file "src/main/resources/password_file.conf"
-
  :secrets #include "secrets.edn"
  :local #include "local.edn"
 
  :re-thing {
    :elasticsearch {:index "re-thing"}
+ }
+
+ :mosquitto {
+   :host #ref [:local :mosquitto :host]
+   :qos 2
+   :client-id "re-thing"
  }
 
  :elasticsearch {

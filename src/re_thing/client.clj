@@ -1,5 +1,6 @@
 (ns re-thing.client
   (:require
+   [re-share.config.core :refer  (get!)]
    [taoensso.timbre :refer (refer-timbre)]
    [mount.core :as mount :refer (defstate)])
   (:import
@@ -11,10 +12,6 @@
    org.eclipse.paho.client.mqttv3.persist.MemoryPersistence))
 
 (refer-timbre)
-
-(def qos 2)
-(def broker "tcp://<ip>:1883")
-(def clientId "re-thing")
 
 (def handlers (atom {}))
 
@@ -30,7 +27,7 @@
   (let [persistence (MemoryPersistence.)
         options (doto (MqttConnectOptions.) (.setCleanSession true))]
     (doto
-     (MqttClient. broker clientId persistence)
+     (MqttClient. (get! :mosquitto :host) (get! :mosquitto :client-id) persistence)
       (.connect options)
       (.setCallback (subscriber)))))
 
@@ -53,5 +50,5 @@
   (.subscribe client (into-array String [q]) (int-array [2])))
 
 (defn publish [q m]
-  (let [message (doto (MqttMessage. (.getBytes m)) (.setQos qos))]
+  (let [message (doto (MqttMessage. (.getBytes m)) (.setQos (get! :mosquitto :qos)))]
     (.publish client q message)))
