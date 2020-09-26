@@ -12,4 +12,5 @@ pom.xml.asc
 re-thing.log.*
 re-thing.log
 src/main/resources/secrets.edn
+src/main/resources/local.edn
 src/main/resources/password_file.conf
