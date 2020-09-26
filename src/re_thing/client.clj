@@ -49,8 +49,8 @@
   (info (String. ^bytes message)))
 
 (defn subscribe [q f]
-  (.subscribe client (into-array String [q]) (int-array [2]))
-  (swap! handlers assoc q f))
+  (swap! handlers assoc q f)
+  (.subscribe client (into-array String [q]) (int-array [2])))
 
 (defn publish [q m]
   (let [message (doto (MqttMessage. (.getBytes m)) (.setQos qos))]
