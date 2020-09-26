@@ -3,7 +3,6 @@
   (:require
    [mount.core :as mount :refer (defstate)]
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
-   [re-thing.core :refer (server)]
    [re-thing.client :refer (client)]
    [re-thing.temp :refer (initialize-temp)]
    [re-thing.persistency :refer (initialize-es elastic)]
@@ -16,18 +15,18 @@
 
 
 (defn start-
-  "Starts the current development system."
+  "Starts the current system."
   []
   (setup-logging)
   (initialize-config)
-  (mount/start #'server #'client #'elastic)
+  (mount/start #'client #'elastic)
   (initialize-es)
   (initialize-temp))
 
 (defn stop
   "Shuts down and destroys the current development system."
   []
-  (mount/stop #'server #'client))
+  (mount/stop #'client #'elastic))
 
 (defn go
   "Initializes the current development system and starts it running."

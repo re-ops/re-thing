@@ -4,8 +4,7 @@
    [re-thing.persistency :refer (persist)]
    [taoensso.timbre :refer (refer-timbre)]
    [re-thing.client :refer (subscribe publish log-message)]
-   [cheshire.core :refer (parse-string)]
-   [dvlopt.mqtt :as mqtt])
+   [cheshire.core :refer (parse-string)])
   (:import
    [com.google.json JsonSanitizer]))
 
@@ -14,7 +13,7 @@
 (defn temp-reading
   "Handling a DHT11 temp reading"
   [message]
-  (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (::mqtt/payload message))) keyword)]
+  (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (.getPayload message))) keyword)]
     (debug "persisting" payload)
     (persist (assoc payload :type :dht11 :host "" :timestamp (System/currentTimeMillis)))))
 

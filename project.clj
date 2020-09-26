@@ -12,11 +12,7 @@
      [com.taoensso/timbre "4.10.0"]
      [com.fzakaria/slf4j-timbre "0.3.19"]
 
-     ; mqtt server
-     [io.moquette/moquette-broker "0.12.1" :exclusions [org.slf4j/slf4j-log4j12]]
-
      ; mqtt client
-     [dvlopt/mqtt "0.0.1"]
      [org.eclipse.paho/org.eclipse.paho.client.mqttv3 "1.2.5"]
 
      ; wiring
