@@ -20,14 +20,18 @@
     (connectionLost [throwable]
       (error "lost connection to broker" throwable))
     (messageArrived [topic message]
-      ((@handlers topic) (.getPayload message)))
+      ((@handlers topic) message))
     (deliveryComplete [token])))
 
 (defn start- []
-  (let [persistence (MemoryPersistence.)
-        options (doto (MqttConnectOptions.) (.setCleanSession true))]
-    (doto
-     (MqttClient. (get! :mosquitto :host) (get! :mosquitto :client-id) persistence)
+  (let [{:keys [host client-id auth]} (get! :mosquitto)
+        {:keys [user password]} auth
+        persistence (MemoryPersistence.)
+        options (doto (MqttConnectOptions.)
+                  (.setUserName user)
+                  (.setPassword (.toCharArray password))
+                  (.setCleanSession true))]
+    (doto (MqttClient. host client-id persistence)
       (.connect options)
       (.setCallback (subscriber)))))
 
