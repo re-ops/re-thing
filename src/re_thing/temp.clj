@@ -15,7 +15,7 @@
   [message]
   (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (.getPayload message))) keyword)]
     (debug "persisting" payload)
-    (persist (assoc payload :type :dht11 :host "" :timestamp (System/currentTimeMillis)))))
+    (persist (assoc payload :timestamp (System/currentTimeMillis)))))
 
 (defn initialize-temp []
   (subscribe "temp/reading" temp-reading))
