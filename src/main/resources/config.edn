@@ -10,6 +10,10 @@
    :host #ref [:local :mosquitto :host]
    :qos 2
    :client-id "re-thing"
+   :auth {
+       :user #ref [:secrets :mosquitto :user]
+       :password #ref [:secrets :mosquitto :password]
+    }
  }
 
  :elasticsearch {
