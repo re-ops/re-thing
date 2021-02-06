@@ -10,12 +10,16 @@
 
 (refer-timbre)
 
+(defn scale-temp [payload]
+  (update payload :temp (fn [t] (/ t 100))))
+
 (defn temp-reading
-  "Handling a DHT11 temp reading"
+  "Handling a temp readings"
   [message]
   (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (.getPayload message))) keyword)]
     (debug "persisting" payload)
-    (persist (assoc payload :timestamp (System/currentTimeMillis)))))
+    (case (:type payload)
+      "bme280"  (-> payload scale-temp (assoc :timestamp (System/currentTimeMillis)) persist))))
 
 (defn initialize-temp []
   (subscribe "temp/reading" temp-reading))
