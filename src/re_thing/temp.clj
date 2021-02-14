@@ -1,6 +1,7 @@
 (ns re-thing.temp
   "Temperture sensor reading over mqtt"
   (:require
+   [re-thing.spec :refer (valid?)]
    [re-thing.persistency :refer (persist)]
    [taoensso.timbre :refer (refer-timbre)]
    [re-thing.client :refer (subscribe publish log-message)]
@@ -16,10 +17,16 @@
 (defn temp-reading
   "Handling a temp readings"
   [message]
-  (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (.getPayload message))) keyword)]
-    (debug "persisting" payload)
-    (case (:type payload)
-      "bme280"  (-> payload scale-temp (assoc :timestamp (System/currentTimeMillis)) persist))))
+  (try
+    (let [payload (parse-string (JsonSanitizer/sanitize (String. ^bytes (.getPayload message))) keyword)]
+      (debug "persisting" payload)
+      (if (valid? :re-thing.spec/reading payload)
+        (case (:type payload)
+          "bme280"
+          (-> payload scale-temp (assoc :timestamp (System/currentTimeMillis)) persist))
+        (error "payload is not valid" payload)))
+    (catch Exception e
+      (error "message handling failed" e))))
 
 (defn initialize-temp []
   (subscribe "temp/reading" temp-reading))

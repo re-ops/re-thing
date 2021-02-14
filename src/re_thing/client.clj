@@ -21,7 +21,8 @@
       (error "lost connection to broker" throwable))
     (messageArrived [topic message]
       ((@handlers topic) message))
-    (deliveryComplete [token])))
+    (deliveryComplete [token]
+      (debug "delivered message" {:token token}))))
 
 (defn start- []
   (let [{:keys [host client-id auth]} (get! :mosquitto)
