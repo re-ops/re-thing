@@ -55,7 +55,6 @@
    :repositories {
     "phao"  "https://repo.eclipse.org/content/repositories/paho-releases/"
     "sonatype" "https://oss.sonatype.org/content/repositories/releases"
-    "bintray" "https://jcenter.bintray.com"
     }
 
    :repl-options {
